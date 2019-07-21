@@ -13,7 +13,7 @@ class Cart implements ICart {
   }
 
   add(item: Item): void {
-    throw new Error('Method not implemented.');
+    this.items.push(item);
   }
 
   remove(itemId: string): void {
