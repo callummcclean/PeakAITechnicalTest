@@ -17,7 +17,7 @@ class Cart implements ICart {
   }
 
   remove(itemId: string): void {
-    throw new Error('Method not implemented.');
+    this.items = this.items.filter((item: Item) => item.id !== itemId);
   }
 
   clear(): void {
