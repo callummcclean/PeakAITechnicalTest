@@ -80,4 +80,26 @@ describe('Shopping Cart', () => {
 
     expect(itemsList).toEqual([secondItem]);
   });
+
+  it('Add multiple items then clear cart returns empty', () => {
+    const cart = new Cart();
+    const firstItem: Item = {
+      id: '1',
+      name: 'Test Item',
+      price: 10,
+    };
+    const secondItem: Item = {
+      id: '2',
+      name: 'Test Item 2',
+      price: 15,
+    };
+
+    cart.add(firstItem);
+    cart.add(secondItem);
+    cart.clear();
+
+    const itemsList = cart.getAll();
+
+    expect(itemsList).toEqual([]);
+  });
 });

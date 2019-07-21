@@ -21,7 +21,7 @@ class Cart implements ICart {
   }
 
   clear(): void {
-    throw new Error('Method not implemented.');
+    this.items = [];
   }
 
 }
