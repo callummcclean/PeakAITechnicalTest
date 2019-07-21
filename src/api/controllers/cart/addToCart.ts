@@ -5,6 +5,13 @@ import Item from '../../../item/Item';
 const addToCart = (req: Request, res: Response) => {
   const cartStore = CartStore.getInstance();
   const cart = cartStore.get(req.params.cartId);
+
+  if (!cart) {
+    res.send({
+      massage: 'Cart ID does not exist.',
+    });
+  }
+
   const item = req.body as Item;
 
   cart.add(item);

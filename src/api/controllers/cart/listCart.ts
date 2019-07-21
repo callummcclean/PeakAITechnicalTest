@@ -5,6 +5,12 @@ const listCart = (req: Request, res: Response) => {
   const cartStore = CartStore.getInstance();
   const cart = cartStore.get(req.params.cartId);
 
+  if (!cart) {
+    res.send({
+      massage: 'Cart ID does not exist.',
+    });
+  }
+
   const items = cart.getAll();
 
   res.send(items);
