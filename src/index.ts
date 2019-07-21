@@ -4,15 +4,27 @@ import * as uuid from 'uuid';
 
 import Cart from './cart/Cart';
 import Item from './item/Item';
-import ICart from 'cart/ICart';
+import CartStore from './cartStore/CartStore';
+import ICartStore from './cartStore/ICartStore';
 
 const app: express.Application = express();
 app.use(parser.json());
 
-const cart: ICart = new Cart();
+const cartStore: ICartStore = new CartStore();
+
+// create a new cart
+app.get('/carts', (req: express.Request, res: express.Response) => {
+  const id = uuid.v4();
+  const cart = new Cart();
+
+  cartStore.add(id, cart);
+
+  res.send({ id });
+});
 
 // add items to cart
-app.post('/cart/items', (req: express.Request, res: express.Response) => {
+app.post('/carts/:cartId/items', (req: express.Request, res: express.Response) => {
+  const cart = cartStore.get(req.params.cartId);
   const item = req.body as Item;
 
   cart.add(item);
@@ -22,15 +34,16 @@ app.post('/cart/items', (req: express.Request, res: express.Response) => {
 });
 
 // list all items
-app.get('/cart/items', (req: express.Request, res: express.Response) => {
+app.get('/carts/:cartId/items', (req: express.Request, res: express.Response) => {
+  const cart = cartStore.get(req.params.cartId);
   const items = cart.getAll();
 
   res.send(items);
 });
 
 // remove item from cart
-app.delete('/cart/items/:itemId', (req: express.Request, res: express.Response) => {
-  const item = req.body as Item;
+app.delete('/carts/:cartId/items/:itemId', (req: express.Request, res: express.Response) => {
+  const cart = cartStore.get(req.params.cartId);
 
   cart.remove(req.params.itemId);
   const items = cart.getAll();
@@ -39,8 +52,8 @@ app.delete('/cart/items/:itemId', (req: express.Request, res: express.Response) 
 });
 
 // clear cart
-app.delete('/cart/items', (req: express.Request, res: express.Response) => {
-  const item = req.body as Item;
+app.delete('/carts/:cartId/items', (req: express.Request, res: express.Response) => {
+  const cart = cartStore.get(req.params.cartId);
 
   cart.clear();
   const items = cart.getAll();
