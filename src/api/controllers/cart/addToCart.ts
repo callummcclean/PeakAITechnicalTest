@@ -7,9 +7,7 @@ const addToCart = (req: Request, res: Response) => {
   const cart = cartStore.get(req.params.cartId);
 
   if (!cart) {
-    res.send({
-      massage: 'Cart ID does not exist.',
-    });
+    throw new Error('Cart ID does not exist.');
   }
 
   const item = req.body as Item;
