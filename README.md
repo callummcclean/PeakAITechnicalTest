@@ -64,7 +64,7 @@ Use this endpoint to calculate the best items for a box. The request bod should 
 
 ```
 {
-	"ids": ["Item1", "Item2", "Item3", "Item4", "Item5", "Item6"],
+  "ids": ["Item1", "Item2", "Item3", "Item4", "Item5", "Item6"],
   "weights": [1, 8, 7, 4, 3, 2],
   "deliveryDays": [4, 1, 2, 10, 3, 5]
 }
